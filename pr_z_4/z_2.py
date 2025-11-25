@@ -20,3 +20,5 @@ print (weights.shape)
 print (biases.shape)
 print (weights[:3,:5]) # Веса 
 print (biases[:10]) # Первые 10 сдвигов
+
+
