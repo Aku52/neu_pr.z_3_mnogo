@@ -1,15 +1,24 @@
 #Исследование различных инициализаторов весов в полносвязной нейронной сети
-import numpy as np
-from keras import models,layers 
 
-#Чтото про веса
-intializators= ['random_normal','he_normal','glorot_uniform']
+# ПОДКЛЮЧЕНИЕ БИБЛИОТЕК
+import numpy as np
+from keras import models, layers
+
+# СПИСОК ИНИЦИАЛИЗАТОРОВ ДЛЯ ТЕСТИРОВАНИЯ
+intializators = ['random_normal', 'he_normal', 'glorot_uniform']
+
+# ЦИКЛ ПО ВСЕМ ИНИЦИАЛИЗАТОРАМ
 for init in intializators:
-    model= models.Sequential([
-    layers.Dense(64, kerner_intializator=init,input_shape=(100,)), 
-    layers.Dense(10,activation='softmax') 
+    # СОЗДАНИЕ МОДЕЛИ
+    model = models.Sequential([
+        layers.Dense(64, kernel_initializer=init, input_shape=(100,)),  
+        layers.Dense(10, activation='softmax')
     ])
-    w,b= models.layers[0].set_weights()
-    print(f'intializer:{init}')
-    print(f'mean:{np.mean(w)},std: {np.std(w)}')
-    print(f'min:{np.min(w)},max: {np.max(w)}')
+    
+    # ПОЛУЧЕНИЕ ВЕСОВ ПЕРВОГО СЛОЯ
+    w, b = model.layers[0].get_weights()                               
+    
+    # ВЫВОД СТАТИСТИКИ ВЕСОВ
+    print(f'intializer: {init}')
+    print(f'mean: {np.mean(w)}, std: {np.std(w)}')
+    print(f'min: {np.min(w)}, max: {np.max(w)}')

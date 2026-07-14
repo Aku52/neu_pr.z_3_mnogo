@@ -34,19 +34,22 @@ text = [
 
 lable = [0,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1,1]# 1- позитивное, 0 - негативное
 
+# РАЗДЕЛЕНИЕ ДАННЫХ НА ОБУЧАЮЩУЮ И ТЕСТОВУЮ ВЫБОРКИ
+# test_size=0.33 — 33% данных уходит на тест
+# random_state=30 — фиксирует случайность для воспроизводимости
 text_train, text_test, y_train, y_test = train_test_split(text, lable, test_size=0.33, random_state=30)
 
-
-pipe = make_pipeline (
-    CountVectorizer(), 
-    MultinomialNB()
+# ПАЙПЛАЙН: ОБРАБОТКА ТЕКСТА + КЛАССИФИКАЦИЯ
+pipe = make_pipeline(
+    CountVectorizer(),  # преобразует текст в "мешок слов" (числовые признаки)
+    MultinomialNB()     # классификатор Наивный Байес (учит вероятности слов)
 )
 
-# Обучение классификатора
-pipe.fit(text_train, y_train)
-y_pred = pipe.predict(text_test)
-print(f"Accuracy:{accuracy_score(y_test,y_pred)}")
+# ОБУЧЕНИЕ КЛАССИФИКАТОРА
+pipe.fit(text_train, y_train)               # модель запоминает связь текстов с метками
+y_pred = pipe.predict(text_test)            # предсказание на тестовой выборке
+print(f"Accuracy:{accuracy_score(y_test,y_pred)}")  # точность модели
 
-# Проверка на новых  сообщениях
-print("New:", pipe.predict(["Отстойно выглядишь"])[0])
-print("New:", pipe.predict(["Доброго дня"])[0])
+# ПРОВЕРКА НА НОВЫХ СООБЩЕНИЯХ
+print("New:", pipe.predict(["Отстойно выглядишь"])[0])  # предсказание для нового текста
+print("New:", pipe.predict(["Доброго дня"])[0])         # предсказание для второго текста
